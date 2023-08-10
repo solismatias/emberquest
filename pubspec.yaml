@@ -1,0 +1,13 @@
+name: emberquest
+description: SImple platform game.
+publish_to: "none"
+version: 0.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.3.0"
+
+dependencies:
+  flame: ^1.8.2
+  flutter:
+    sdk: flutter
