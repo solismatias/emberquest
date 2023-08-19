@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 
 import '../ember_quest.dart';
 
+// HasGameRef mixin allows us to reach back to ember_quest.dart and leverage any of the variables or methods that are defined in the game class
 class EmberPlayer extends SpriteAnimationComponent
     with HasGameRef<EmberQuestGame> {
   EmberPlayer({
