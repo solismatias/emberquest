@@ -1,7 +1,11 @@
+import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 
 class EmberQuestGame extends FlameGame {
   EmberQuestGame();
+
+  final world = World();
+  late final CameraComponent cameraComponent;
 
   @override
   Future<void> onLoad() async {
@@ -15,5 +19,11 @@ class EmberQuestGame extends FlameGame {
       'star.png',
       'water_enemy.png',
     ]);
+    cameraComponent = CameraComponent(world: world);
+    // We assume that the position
+    // of the `CameraComponent`s viewfinder (where the camera is looking)
+    // is in the top left corner, that's why we set the anchor here.
+    cameraComponent.viewfinder.anchor = Anchor.topLeft;
+    addAll([cameraComponent, world]);
   }
 }
