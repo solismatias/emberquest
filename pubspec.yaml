@@ -11,5 +11,7 @@ dependencies:
   flame: ^1.8.2
   flutter:
     sdk: flutter
-    assets:
-      - assets/images/
+
+flutter:
+  assets:
+    - assets/images/
