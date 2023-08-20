@@ -1,8 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'actors/ember.dart';
 
 class EmberQuestGame extends FlameGame {
   EmberQuestGame();
+
+  late EmberPlayer _ember;
 
   final world = World();
   late final CameraComponent cameraComponent;
@@ -25,5 +28,10 @@ class EmberQuestGame extends FlameGame {
     // is in the top left corner, that's why we set the anchor here.
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     addAll([cameraComponent, world]);
+
+    _ember = EmberPlayer(
+      position: Vector2(128, canvasSize.y - 70),
+    );
+    world.add(_ember);
   }
 }
