@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/widgets.dart';
 import 'actors/ember.dart';
 import 'actors/water_enemy.dart';
 import 'managers/segment_manager.dart';
@@ -9,6 +10,9 @@ import 'objects/star.dart';
 
 class EmberQuestGame extends FlameGame {
   EmberQuestGame();
+
+  late double lastBlockXPosition = 0.0;
+  late UniqueKey lastBlockKey;
 
   late EmberPlayer _ember;
   double objectSpeed = 0.0;
@@ -62,8 +66,6 @@ class EmberQuestGame extends FlameGame {
   void loadGameSegments(int segmentIndex, double xPositionOffset) {
     for (final block in segments[segmentIndex]) {
       switch (block.blockType) {
-        case GroundBlock:
-          break;
         case PlatformBlock:
           add(PlatformBlock(
             gridPosition: block.gridPosition,
@@ -81,6 +83,15 @@ class EmberQuestGame extends FlameGame {
         case WaterEnemy:
           add(
             WaterEnemy(
+              gridPosition: block.gridPosition,
+              xOffset: xPositionOffset,
+            ),
+          );
+
+          break;
+        case GroundBlock:
+          add(
+            GroundBlock(
               gridPosition: block.gridPosition,
               xOffset: xPositionOffset,
             ),
