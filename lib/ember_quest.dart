@@ -51,7 +51,7 @@ class EmberQuestGame extends FlameGame
 
   void initializeGame() {
     _ember = EmberPlayer(
-      position: Vector2(128, canvasSize.y - 70),
+      position: Vector2(128, canvasSize.y - 128),
     );
     world.add(_ember);
     // We are taking the width of the game screen,

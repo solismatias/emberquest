@@ -20,6 +20,10 @@ class EmberPlayer extends SpriteAnimationComponent
   int horizontalDirection = 0;
   final Vector2 fromAbove = Vector2(0, -1);
   bool isOnGround = false;
+  final double gravity = 15;
+  final double jumpSpeed = 600;
+  final double terminalVelocity = 150;
+  bool hasJumped = false;
 
   @override
   void onLoad() {
@@ -50,6 +54,23 @@ class EmberPlayer extends SpriteAnimationComponent
       print("der");
       flipHorizontally();
     }
+
+    // Apply basic gravity
+    velocity.y += gravity;
+
+    // Determine if ember has jumped
+    if (hasJumped) {
+      if (isOnGround) {
+        velocity.y = -jumpSpeed;
+        isOnGround = false;
+      }
+      hasJumped = false;
+    }
+
+    // Prevent ember from jumping to crazy fast as well as descending too fast and
+    // crashing through the ground or a platform.
+    velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
+
     super.update(dt);
   }
 
@@ -65,6 +86,7 @@ class EmberPlayer extends SpriteAnimationComponent
         ? 1
         : 0;
 
+    hasJumped = keysPressed.contains(LogicalKeyboardKey.space);
     return true;
   }
 
