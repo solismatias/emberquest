@@ -7,9 +7,15 @@ import 'managers/segment_manager.dart';
 import 'objects/ground_block.dart';
 import 'objects/platform_block.dart';
 import 'objects/star.dart';
+import 'package:flutter/material.dart';
 
 class EmberQuestGame extends FlameGame {
   EmberQuestGame();
+
+  @override
+  Color backgroundColor() {
+    return const Color.fromARGB(255, 173, 223, 247);
+  }
 
   late double lastBlockXPosition = 0.0;
   late UniqueKey lastBlockKey;
