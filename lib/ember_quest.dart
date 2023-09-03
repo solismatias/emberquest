@@ -10,7 +10,8 @@ import 'objects/star.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 
-class EmberQuestGame extends FlameGame with HasKeyboardHandlerComponents {
+class EmberQuestGame extends FlameGame
+    with HasCollisionDetection, HasKeyboardHandlerComponents {
   EmberQuestGame();
 
   @override

@@ -1,10 +1,13 @@
+import 'package:emberquest/objects/ground_block.dart';
+import 'package:emberquest/objects/platform_block.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import '../ember_quest.dart';
+import 'package:flame/collisions.dart';
 
 // HasGameRef mixin allows us to reach back to ember_quest.dart and leverage any of the variables or methods that are defined in the game class
 class EmberPlayer extends SpriteAnimationComponent
-    with KeyboardHandler, HasGameRef<EmberQuestGame> {
+    with KeyboardHandler, CollisionCallbacks, HasGameRef<EmberQuestGame> {
   EmberPlayer({
     required super.position,
   }) : super(
@@ -15,6 +18,8 @@ class EmberPlayer extends SpriteAnimationComponent
   final Vector2 velocity = Vector2.zero();
   final double moveSpeed = 200;
   int horizontalDirection = 0;
+  final Vector2 fromAbove = Vector2(0, -1);
+  bool isOnGround = false;
 
   @override
   void onLoad() {
@@ -25,6 +30,10 @@ class EmberPlayer extends SpriteAnimationComponent
         textureSize: Vector2.all(16),
         stepTime: 0.12,
       ),
+    );
+
+    add(
+      CircleHitbox(),
     );
   }
 
@@ -57,5 +66,33 @@ class EmberPlayer extends SpriteAnimationComponent
         : 0;
 
     return true;
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is GroundBlock || other is PlatformBlock) {
+      if (intersectionPoints.length == 2) {
+        // Calculate the collision normal and separation distance.
+        final mid = (intersectionPoints.elementAt(0) +
+                intersectionPoints.elementAt(1)) /
+            2;
+
+        final collisionNormal = absoluteCenter - mid;
+        final separationDistance = (size.x / 2) - collisionNormal.length;
+        collisionNormal.normalize();
+
+        // If collision normal is almost upwards,
+        // ember must be on ground.
+        if (fromAbove.dot(collisionNormal) > 0.9) {
+          isOnGround = true;
+        }
+
+        // Resolve collision by moving ember along
+        // collision normal by separation distance.
+        position += collisionNormal.scaled(separationDistance);
+      }
+    }
+
+    super.onCollision(intersectionPoints, other);
   }
 }
