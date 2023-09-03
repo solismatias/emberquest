@@ -48,10 +48,8 @@ class EmberPlayer extends SpriteAnimationComponent
     if (horizontalDirection < 0 && scale.x > 0) {
       // flip character depending on movement
       // use scale.x to check if character is already on the desired position
-      print("izq");
       flipHorizontally();
     } else if (horizontalDirection > 0 && scale.x < 0) {
-      print("der");
       flipHorizontally();
     }
 
