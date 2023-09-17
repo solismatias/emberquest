@@ -131,6 +131,7 @@ class EmberPlayer extends SpriteAnimationComponent
 
     if (other is Star) {
       other.removeFromParent();
+      game.starsCollected++;
     }
 
     if (other is WaterEnemy) {
@@ -140,18 +141,19 @@ class EmberPlayer extends SpriteAnimationComponent
     super.onCollision(intersectionPoints, other);
   }
 
-  // This method runs an opacity effect on ember
-// to make it blink.
   void hit() {
     if (!hitByEnemy) {
+      game.health--;
       hitByEnemy = true;
     }
     add(
+      // This method runs an opacity effect on ember
+      // to make it blink.
       OpacityEffect.fadeOut(
         EffectController(
           alternate: true,
           duration: 0.1,
-          repeatCount: 6,
+          repeatCount: 5,
         ),
       )..onComplete = () {
           hitByEnemy = false;
