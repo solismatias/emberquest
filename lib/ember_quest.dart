@@ -50,14 +50,17 @@ class EmberQuestGame extends FlameGame
     // is in the top left corner, that's why we set the anchor here.
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     addAll([cameraComponent, world]);
-    initializeGame();
+    initializeGame(true);
   }
 
-  void initializeGame() {
+  void initializeGame(bool loadHud) {
     _ember = EmberPlayer(
       position: Vector2(128, canvasSize.y - 128),
     );
     world.add(_ember);
+    if (loadHud) {
+      add(Hud());
+    }
     // We are taking the width of the game screen,
     // divide that by 640 (10 blocks in a segment times 64 pixels wide for each block)
 
@@ -74,6 +77,12 @@ class EmberQuestGame extends FlameGame
     );
     world.add(_ember);
     cameraComponent.viewport.add(Hud());
+  }
+
+  void reset() {
+    starsCollected = 0;
+    health = 3;
+    initializeGame(false);
   }
 
   void loadGameSegments(int segmentIndex, double xPositionOffset) {
